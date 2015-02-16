@@ -21,14 +21,14 @@
 
 (def board-3 (cf/board 6 7 [[1]
                             [2 1]
-                            [1 2 1]
+                            [1 2 1 2]
                             [2 1 2 1]
                             []
                             []
                             []]))
 
 (def board-4 (cf/board 6 7 [[2 1 2 1]
-                            [1 2 1]
+                            [1 2 1 2 2]
                             [2 1]
                             [1]
                             []
@@ -99,3 +99,26 @@
   (player-1-wins board-7)
   (no-winner board-8)
   (player-2-wins board-9))
+
+(defn player-1-turn
+  ([board] (player-1-turn board 1))
+  ([board starting-player]
+   (is (= (cf/determine-player board starting-player) 1))))
+
+(defn player-2-turn
+  ([board] (player-2-turn board 1))
+  ([board starting-player]
+   (is (= (cf/determine-player board starting-player) 2))))
+
+(deftest determine-player
+  (player-2-turn board-3)
+  (player-1-turn board-4)
+  (player-2-turn board-4 2)
+  (player-1-turn (cf/board))
+  (player-2-turn (cf/board) 2))
+
+(deftest simulate
+  (is (= (cf/simulate board-8) false))
+  (is (= (cf/simulate board-1) 1))
+  (is (= (cf/simulate board-6) 2))
+  (is (= (contains? #{1 2 false} (cf/simulate (cf/board))) true)))
