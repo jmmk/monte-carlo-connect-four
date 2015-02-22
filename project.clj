@@ -3,6 +3,7 @@
   :url "http://example.com/FIXME"
 
   :dependencies [[org.clojure/clojure "1.6.0"]
+                 [reagent "0.5.0-alpha3"]
                  [org.clojure/clojurescript "0.0-2755"]]
 
   :node-dependencies [[source-map-support "0.2.8"]]
@@ -23,7 +24,7 @@
              {:id "dev"
               :source-paths ["src"]
               :compiler {
-                         :main connect-four.core
+                         :main connect-four.frontend
                          :output-to "out/connect_four.js"
                          :output-dir "out"
                          :optimizations :none
@@ -32,7 +33,7 @@
              {:id "release"
               :source-paths ["src"]
               :compiler {
-                         :main connect-four.core
+                         :main connect-four.frontend
                          :output-to "out-adv/connect_four.min.js"
                          :output-dir "out-adv"
                          :optimizations :advanced
