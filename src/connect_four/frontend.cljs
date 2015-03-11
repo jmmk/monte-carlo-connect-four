@@ -14,9 +14,15 @@
 
 (defn player-click [column]
   (let [{:keys [player]} @state]
-    (if (= player 1)
-      (drop-piece column)
-      (.log js/console (cf/find-best-move @state)))))
+    (when (= player 1)
+      (drop-piece column))))
+
+(add-watch state :ai
+  (fn [key atom old-state new-state]
+    (when (= (:player new-state) 2)
+      (let [best-move (cf/find-best-move new-state)]
+        (drop-piece (best-move 0))
+        (.log js/console "Win Percentage: " (val best-move))))))
 
 (defn cell [text column row]
   ^{:key (str row column)}[:td {:style {:border "1px solid black"

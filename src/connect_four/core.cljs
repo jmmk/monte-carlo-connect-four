@@ -113,7 +113,7 @@
             (full? (:bits game-board)) false
             :else (recur next-state (random-move game-board))))))
 
-(defn find-best-move [game-state]
+(defn collect-statistics [game-state]
   (loop [results {:total 0}
          num-iters 5000]
     (if (zero? num-iters)
@@ -127,9 +127,13 @@
                    (assoc :total (inc total))
                    (assoc-in [next-move winner] (inc wins))) (dec num-iters))))))
 
-(def game-state {:boards (new-boards)
-                 :player 1
-                 :winner nil})
-; (.log js/console (find-best-move game-state))
-
-
+(defn find-best-move [game-state]
+  (let [columns (range (:columns ((:boards game-state) 0)))
+        results (collect-statistics game-state)
+        win-percentages (into {} (for [x columns]
+                                   (if (results x)
+                                     (let [wins (get-in results [x 2])
+                                           losses (get-in results [x 1])]
+                                       {x (/ wins (+ wins losses))})
+                                     {x 0})))]
+    (apply max-key val win-percentages)))
