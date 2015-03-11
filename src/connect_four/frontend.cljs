@@ -1,24 +1,38 @@
 (ns connect-four.frontend
   (:require [reagent.core :as reagent :refer [atom]]
-            [connect-four.core :as cf]))
+            [connect-four.core :as cf])
+  (:import [goog.math Long]))
 
-(def boards (atom (cf/new-boards)))
+(def state (atom {:boards (cf/new-boards)
+                  :player 1
+                  :winner nil}))
+
 (def pieces ["_" "RED" "BLACK"])
 
-(defn cell [text]
-  [:td {:style {:border "1px solid black"
+(defn drop-piece [column]
+  (swap! state cf/play column))
+
+(defn player-click [column]
+  (let [{:keys [player]} @state]
+    (if (= player 1)
+      (drop-piece column)
+      (.log js/console (cf/find-best-move @state)))))
+
+(defn cell [text column row]
+  ^{:key (str row column)}[:td {:style {:border "1px solid black"
                 :width "60px"
-                :height "60px"}}
+                :height "60px"}
+        :on-click #(player-click column)}
    [:p text]])
 
 (defn game-board []
-  (let [{:keys [rows columns state]} (@boards 0)]
-    [:table {:on-click #(swap! boards cf/play (rand-int columns) (inc (rand-int 2)))
-             :style {:border-collapse "collapse"}}
+  (let [{:keys [boards]} @state
+        {:keys [rows columns state]} (boards 0)]
+    [:table {:style {:border-collapse "collapse"}}
      (doall (for [row (range (dec rows) -1 -1)]
-              [:tr
+              ^{:key row}[:tr
                (doall (for [column (range columns)]
-                        [cell (pieces (get (state column) row 0))]))]))]))
+                        [cell (pieces (get (state column) row 0)) column row]))]))]))
 
 (reagent/render-component [game-board]
                           (.-body js/document))
