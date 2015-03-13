@@ -18,7 +18,8 @@
 
 (defn player-click [column]
   (let [{:keys [player]} @state]
-    (when (= player 1)
+    (when (and (= player 1)
+               (nil? (:winner @state)))
       (drop-piece column))))
 
 (add-watch state :ai
@@ -39,13 +40,16 @@
    [:p text]])
 
 (defn game-board []
-  (let [{:keys [boards]} @state
+  (let [{:keys [boards winner]} @state
         {:keys [rows columns state]} (boards 0)]
-    [:table {:style {:border-collapse "collapse"}}
-     (doall (for [row (range (dec rows) -1 -1)]
-              ^{:key row}[:tr
-               (doall (for [column (range columns)]
-                        [cell (pieces (get (state column) row 0)) column row]))]))]))
+    [:div
+     (when (some? winner)
+       [:div [:h1 (str "Player " winner " wins!")]])
+     [:table {:style {:border-collapse "collapse"}}
+      (doall (for [row (range (dec rows) -1 -1)]
+               ^{:key row}[:tr
+                           (doall (for [column (range columns)]
+                                    [cell (pieces (get (state column) row 0)) column row]))]))]]))
 
 (reagent/render-component [game-board]
                           (.-body js/document))
