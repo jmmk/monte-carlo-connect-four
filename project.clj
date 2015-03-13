@@ -3,12 +3,13 @@
   :url "http://example.com/FIXME"
 
   :dependencies [[org.clojure/clojure "1.6.0"]
-                 [reagent "0.5.0-alpha3"]
-                 [org.clojure/clojurescript "0.0-2755"]]
+                 [reagent "0.5.0"]
+                 [org.clojure/core.async "0.1.346.0-17112a-alpha"]
+                 [org.clojure/clojurescript "0.0-3058"]]
 
   :node-dependencies [[source-map-support "0.2.8"]]
 
-  :plugins [[lein-cljsbuild "1.0.4"]
+  :plugins [[lein-cljsbuild "1.0.5"]
             [lein-npm "0.4.0"]
             [com.cemerick/clojurescript.test "0.3.3"]]
 

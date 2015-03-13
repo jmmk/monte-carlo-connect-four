@@ -1,11 +1,15 @@
 (ns connect-four.frontend
+  (:require-macros [cljs.core.async.macros :refer [go]])
   (:require [reagent.core :as reagent :refer [atom]]
-            [connect-four.core :as cf])
+            [connect-four.core :as cf]
+            [cljs.core.async :refer [put! take! <! chan]])
   (:import [goog.math Long]))
 
 (def state (atom {:boards (cf/new-boards)
                   :player 1
                   :winner nil}))
+
+(def ai-chan (chan))
 
 (def pieces ["_" "RED" "BLACK"])
 
@@ -20,9 +24,12 @@
 (add-watch state :ai
   (fn [key atom old-state new-state]
     (when (= (:player new-state) 2)
-      (let [best-move (cf/find-best-move new-state)]
-        (drop-piece (best-move 0))
-        (.log js/console "Win Percentage: " (val best-move))))))
+      (put! ai-chan "run"))))
+
+(go (while true (when (= "run" (<! ai-chan))
+                         (let [best-move (cf/find-best-move @state)]
+                           (drop-piece (best-move 0))
+                           (.log js/console "Win Percentage: " (val best-move))))))
 
 (defn cell [text column row]
   ^{:key (str row column)}[:td {:style {:border "1px solid black"
