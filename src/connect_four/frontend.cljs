@@ -17,9 +17,10 @@
   (swap! state cf/play column))
 
 (defn player-click [column]
-  (let [{:keys [player]} @state]
+  (let [{:keys [player boards]} @state]
     (when (and (= player 1)
-               (nil? (:winner @state)))
+               (nil? (:winner @state))
+               (cf/is-valid? (boards 0) column))
       (drop-piece column))))
 
 (add-watch state :ai
@@ -27,7 +28,8 @@
     (when (= (:player new-state) 2)
       (put! ai-chan "run"))))
 
-(go (while true (when (= "run" (<! ai-chan))
+(go (while true (when (and (= "run" (<! ai-chan))
+                           (nil? (:winner @state)))
                          (let [best-move (cf/find-best-move @state)]
                            (drop-piece (best-move 0))
                            (.log js/console "Win Percentage: " (val best-move))))))
