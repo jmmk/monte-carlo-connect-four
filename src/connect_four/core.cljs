@@ -140,10 +140,10 @@
 (defn find-best-move [game-state]
   (let [columns (range (:columns ((:boards game-state) 0)))
         results (collect-statistics game-state)
-        win-percentages (into {} (for [x columns]
-                                   (if (results x)
-                                     (let [wins (get-in results [x 2])
-                                           losses (get-in results [x 1])]
-                                       {x (/ wins (+ wins losses))})
-                                     {x 0})))]
-    (apply max-key val win-percentages)))
+        win-percentages (for [x columns]
+                          (if (results x)
+                            (let [wins (get-in results [x 2])
+                                  losses (get-in results [x 1])]
+                              {:column x :percentage (/ wins (+ wins losses))})
+                            {:column x :percentage 0}))]
+    (apply max-key #(:percentage %) win-percentages)))

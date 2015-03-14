@@ -29,8 +29,8 @@
 (go (while true (when (and (= "run" (<! ai-chan))
                            (nil? (:winner @state)))
                          (let [best-move (cf/find-best-move @state)]
-                           (drop-piece (best-move 0))
-                           (.log js/console "Win Percentage: " (val best-move))))))
+                           (drop-piece (:column best-move))
+                           (.log js/console "Win Percentage: " (:percentage best-move))))))
 
 (defn cell [text column row]
   ^{:key (str row column)}[:td {:style {:border "1px solid black"
