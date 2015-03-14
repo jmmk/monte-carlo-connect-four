@@ -39,12 +39,18 @@
         :on-click #(player-click column)}
    [:p text]])
 
+(defn winner-display []
+  (let [winner (:winner @state)]
+    [:div {:style {:height "32px"}}
+     [:h1
+      (when (some? winner)
+        (str "Player " winner " wins!"))]]))
+
 (defn game-board []
   (let [{:keys [boards winner]} @state
         {:keys [rows columns state]} (boards 0)]
     [:div
-     (when (some? winner)
-       [:div [:h1 (str "Player " winner " wins!")]])
+     [winner-display]
      [:table {:style {:border-collapse "collapse"}}
       (doall (for [row (range (dec rows) -1 -1)]
                ^{:key row}[:tr
