@@ -32,8 +32,8 @@
                            (drop-piece (:column best-move))
                            (.log js/console "Win Percentage: " (:percentage best-move))))))
 
-(defn cell [text column row]
-  ^{:key (str row column)}[:td {:style {:border "1px solid black"
+(defn cell [text column]
+  [:td {:style {:border "1px solid black"
                 :width "60px"
                 :height "60px"}
         :on-click #(player-click column)}
@@ -53,9 +53,10 @@
      [winner-display]
      [:table {:style {:border-collapse "collapse"}}
       (doall (for [row (range (dec rows) -1 -1)]
-               ^{:key row}[:tr
-                           (doall (for [column (range columns)]
-                                    [cell (pieces (get (state column) row 0)) column row]))]))]]))
+               [:tr {:key (str "row-" row)}
+                (doall (for [column (range columns)]
+                         ^{:key (str column row)}
+                         [cell (pieces (get (state column) row 0)) column]))]))]]))
 
 (reagent/render-component [game-board]
                           (.-body js/document))
