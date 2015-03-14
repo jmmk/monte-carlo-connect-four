@@ -28,21 +28,23 @@
 (defn new-boards []
   "Returns a vector of a game board and two players' bit boards (a single 64-bit integer)"
 
-  [(board) Long.ZERO Long.ZERO])
+  {:game-board (board)
+   :red Long.ZERO
+   :black Long.ZERO})
 
 (defn new-state
   "Returns a new game state for starting or resetting"
 
-  ([] (new-state 1))
+  ([] (new-state :red))
   ([player]
    {:boards (new-boards)
     :player player
     :winner nil}))
 
 (defn opposite-player [player]
-  (if (= player 1)
-    2
-    1))
+  (if (= player :red)
+    :black
+    :red))
 
 (defn is-valid? [board column]
   "Check if move is valid for the current board state:
@@ -83,14 +85,14 @@
   and winner checked"
 
   (let [{:keys [boards player]} game-state
-        game-board (boards 0)
+        game-board (:game-board boards)
         {board-state :state bits :bits} game-board
         pieces (board-state column)
         row (count pieces)
-        updated-player-board (bit-insert (boards player) column row)]
+        updated-player-board (bit-insert (player boards) column row)]
     (assoc game-state
            :boards (assoc boards
-                          0 (assoc game-board
+                          :game-board (assoc game-board
                                    :state (assoc board-state column (conj pieces player))
                                    :bits (bit-insert bits column row))
                           player updated-player-board)
@@ -118,7 +120,7 @@
   (loop [current-state game-state
          current-move move]
     (let [{:keys [winner boards] :as next-state} (play current-state current-move)
-          game-board (boards 0)]
+          game-board (:game-board boards)]
       (cond (some? winner) winner
             (full? (:bits game-board)) false
             :else (recur next-state (random-move game-board))))))
@@ -129,21 +131,21 @@
     (if (zero? num-iters)
       results
       (let [{:keys [total]} results
-            {:keys [boards player]} game-state
-            next-move (random-move (boards 0))
+            {:keys [boards]} game-state
+            next-move (random-move (:game-board boards))
             winner (or (simulate game-state next-move) :draw)
             wins (or (get-in results [next-move winner]) 0)]
         (recur (-> results
                    (assoc :total (inc total))
                    (assoc-in [next-move winner] (inc wins))) (dec num-iters))))))
 
-(defn find-best-move [game-state]
-  (let [columns (range (:columns ((:boards game-state) 0)))
+(defn find-best-move [game-state player]
+  (let [columns (range (get-in game-state [:boards :game-board :columns]))
         results (collect-statistics game-state)
         win-percentages (for [x columns]
                           (if (results x)
-                            (let [wins (get-in results [x 2])
-                                  losses (get-in results [x 1])]
+                            (let [wins (get-in results [x player])
+                                  losses (get-in results [x (opposite-player player)])]
                               {:column x :percentage (/ wins (+ wins losses))})
                             {:column x :percentage 0}))]
     (apply max-key #(:percentage %) win-percentages)))
