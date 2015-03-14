@@ -287,24 +287,49 @@ return connect_four$core$board;
 ;
 connect_four.core.new_boards = (function connect_four$core$new_boards(){
 
-return new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [connect_four.core.board.cljs$core$IFn$_invoke$arity$0(),goog.math.Long.ZERO,goog.math.Long.ZERO], null);
+return new cljs.core.PersistentArrayMap(null, 3, [cljs.core.constant$keyword$_COLON_game_board,connect_four.core.board.cljs$core$IFn$_invoke$arity$0(),cljs.core.constant$keyword$_COLON_red,goog.math.Long.ZERO,cljs.core.constant$keyword$_COLON_black,goog.math.Long.ZERO], null);
 });
+/**
+ * Returns a new game state for starting or resetting
+ */
+connect_four.core.new_state = (function() {
+var connect_four$core$new_state = null;
+var connect_four$core$new_state__0 = (function (){
+return connect_four$core$new_state.cljs$core$IFn$_invoke$arity$1(cljs.core.constant$keyword$_COLON_red);
+});
+var connect_four$core$new_state__1 = (function (player){
+return new cljs.core.PersistentArrayMap(null, 3, [cljs.core.constant$keyword$_COLON_boards,connect_four.core.new_boards(),cljs.core.constant$keyword$_COLON_player,player,cljs.core.constant$keyword$_COLON_winner,null], null);
+});
+connect_four$core$new_state = function(player){
+switch(arguments.length){
+case 0:
+return connect_four$core$new_state__0.call(this);
+case 1:
+return connect_four$core$new_state__1.call(this,player);
+}
+throw(new Error('Invalid arity: ' + arguments.length));
+};
+connect_four$core$new_state.cljs$core$IFn$_invoke$arity$0 = connect_four$core$new_state__0;
+connect_four$core$new_state.cljs$core$IFn$_invoke$arity$1 = connect_four$core$new_state__1;
+return connect_four$core$new_state;
+})()
+;
 connect_four.core.opposite_player = (function connect_four$core$opposite_player(player){
-if(cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(player,(1))){
-return (2);
+if(cljs.core._EQ_.cljs$core$IFn$_invoke$arity$2(player,cljs.core.constant$keyword$_COLON_red)){
+return cljs.core.constant$keyword$_COLON_black;
 } else {
-return (1);
+return cljs.core.constant$keyword$_COLON_red;
 }
 });
 connect_four.core.is_valid_QMARK_ = (function connect_four$core$is_valid_QMARK_(board,column){
 
-var map__5856 = board;
-var map__5856__$1 = ((cljs.core.seq_QMARK_(map__5856))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__5856):map__5856);
-var state = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__5856__$1,cljs.core.constant$keyword$_COLON_state);
-var columns = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__5856__$1,cljs.core.constant$keyword$_COLON_columns);
-var rows = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__5856__$1,cljs.core.constant$keyword$_COLON_rows);
-if(((((0) <= column)) && ((column <= columns))) && ((cljs.core.count((function (){var G__5858 = column;
-return (state.cljs$core$IFn$_invoke$arity$1 ? state.cljs$core$IFn$_invoke$arity$1(G__5858) : state.call(null,G__5858));
+var map__5857 = board;
+var map__5857__$1 = ((cljs.core.seq_QMARK_(map__5857))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__5857):map__5857);
+var state = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__5857__$1,cljs.core.constant$keyword$_COLON_state);
+var columns = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__5857__$1,cljs.core.constant$keyword$_COLON_columns);
+var rows = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__5857__$1,cljs.core.constant$keyword$_COLON_rows);
+if(((((0) <= column)) && ((column <= columns))) && ((cljs.core.count((function (){var G__5859 = column;
+return (state.cljs$core$IFn$_invoke$arity$1 ? state.cljs$core$IFn$_invoke$arity$1(G__5859) : state.call(null,G__5859));
 })()) < rows))){
 return true;
 } else {
@@ -351,42 +376,40 @@ var map__5864 = game_state;
 var map__5864__$1 = ((cljs.core.seq_QMARK_(map__5864))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__5864):map__5864);
 var player = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__5864__$1,cljs.core.constant$keyword$_COLON_player);
 var boards = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__5864__$1,cljs.core.constant$keyword$_COLON_boards);
-var game_board = (function (){var G__5866 = (0);
-return (boards.cljs$core$IFn$_invoke$arity$1 ? boards.cljs$core$IFn$_invoke$arity$1(G__5866) : boards.call(null,G__5866));
-})();
+var game_board = cljs.core.constant$keyword$_COLON_game_board.cljs$core$IFn$_invoke$arity$1(boards);
 var map__5865 = game_board;
 var map__5865__$1 = ((cljs.core.seq_QMARK_(map__5865))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__5865):map__5865);
 var board_state = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__5865__$1,cljs.core.constant$keyword$_COLON_state);
 var bits = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__5865__$1,cljs.core.constant$keyword$_COLON_bits);
-var pieces = (function (){var G__5867 = column;
-return (board_state.cljs$core$IFn$_invoke$arity$1 ? board_state.cljs$core$IFn$_invoke$arity$1(G__5867) : board_state.call(null,G__5867));
+var pieces = (function (){var G__5866 = column;
+return (board_state.cljs$core$IFn$_invoke$arity$1 ? board_state.cljs$core$IFn$_invoke$arity$1(G__5866) : board_state.call(null,G__5866));
 })();
 var row = cljs.core.count(pieces);
-var updated_player_board = connect_four.core.bit_insert((function (){var G__5868 = player;
-return (boards.cljs$core$IFn$_invoke$arity$1 ? boards.cljs$core$IFn$_invoke$arity$1(G__5868) : boards.call(null,G__5868));
+var updated_player_board = connect_four.core.bit_insert((function (){var G__5867 = boards;
+return (player.cljs$core$IFn$_invoke$arity$1 ? player.cljs$core$IFn$_invoke$arity$1(G__5867) : player.call(null,G__5867));
 })(),column,row);
-return cljs.core.assoc.cljs$core$IFn$_invoke$arity$variadic(game_state,cljs.core.constant$keyword$_COLON_boards,cljs.core.assoc.cljs$core$IFn$_invoke$arity$variadic(boards,(0),cljs.core.assoc.cljs$core$IFn$_invoke$arity$variadic(game_board,cljs.core.constant$keyword$_COLON_state,cljs.core.assoc.cljs$core$IFn$_invoke$arity$3(board_state,column,cljs.core.conj.cljs$core$IFn$_invoke$arity$2(pieces,player)),cljs.core.array_seq([cljs.core.constant$keyword$_COLON_bits,connect_four.core.bit_insert(bits,column,row)], 0)),cljs.core.array_seq([player,updated_player_board], 0)),cljs.core.array_seq([cljs.core.constant$keyword$_COLON_player,connect_four.core.opposite_player(player),cljs.core.constant$keyword$_COLON_winner,((connect_four.core.winning_board_QMARK_(updated_player_board))?player:null)], 0));
+return cljs.core.assoc.cljs$core$IFn$_invoke$arity$variadic(game_state,cljs.core.constant$keyword$_COLON_boards,cljs.core.assoc.cljs$core$IFn$_invoke$arity$variadic(boards,cljs.core.constant$keyword$_COLON_game_board,cljs.core.assoc.cljs$core$IFn$_invoke$arity$variadic(game_board,cljs.core.constant$keyword$_COLON_state,cljs.core.assoc.cljs$core$IFn$_invoke$arity$3(board_state,column,cljs.core.conj.cljs$core$IFn$_invoke$arity$2(pieces,player)),cljs.core.array_seq([cljs.core.constant$keyword$_COLON_bits,connect_four.core.bit_insert(bits,column,row)], 0)),cljs.core.array_seq([player,updated_player_board], 0)),cljs.core.array_seq([cljs.core.constant$keyword$_COLON_player,connect_four.core.opposite_player(player),cljs.core.constant$keyword$_COLON_winner,((connect_four.core.winning_board_QMARK_(updated_player_board))?player:null)], 0));
 });
 connect_four.core.full_QMARK_ = (function connect_four$core$full_QMARK_(bits){
 return bits.equals(connect_four.core.full_bit_board_long);
 });
 connect_four.core.random_move = (function connect_four$core$random_move(board){
 
-var map__5871 = board;
-var map__5871__$1 = ((cljs.core.seq_QMARK_(map__5871))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__5871):map__5871);
-var state = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__5871__$1,cljs.core.constant$keyword$_COLON_state);
-var columns = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__5871__$1,cljs.core.constant$keyword$_COLON_columns);
-var rows = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__5871__$1,cljs.core.constant$keyword$_COLON_rows);
+var map__5870 = board;
+var map__5870__$1 = ((cljs.core.seq_QMARK_(map__5870))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__5870):map__5870);
+var state = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__5870__$1,cljs.core.constant$keyword$_COLON_state);
+var columns = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__5870__$1,cljs.core.constant$keyword$_COLON_columns);
+var rows = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__5870__$1,cljs.core.constant$keyword$_COLON_rows);
 var column_range = cljs.core.range.cljs$core$IFn$_invoke$arity$1(columns);
 while(true){
 var move = cljs.core.rand_nth(column_range);
-if((cljs.core.count((function (){var G__5872 = move;
-return (state.cljs$core$IFn$_invoke$arity$1 ? state.cljs$core$IFn$_invoke$arity$1(G__5872) : state.call(null,G__5872));
+if((cljs.core.count((function (){var G__5871 = move;
+return (state.cljs$core$IFn$_invoke$arity$1 ? state.cljs$core$IFn$_invoke$arity$1(G__5871) : state.call(null,G__5871));
 })()) < rows)){
 return move;
 } else {
-var G__5873 = cljs.core.remove.cljs$core$IFn$_invoke$arity$2(cljs.core.PersistentHashSet.fromArray([move], true),column_range);
-column_range = G__5873;
+var G__5872 = cljs.core.remove.cljs$core$IFn$_invoke$arity$2(cljs.core.PersistentHashSet.fromArray([move], true),column_range);
+column_range = G__5872;
 continue;
 }
 break;
@@ -397,24 +420,22 @@ connect_four.core.simulate = (function connect_four$core$simulate(game_state,mov
 var current_state = game_state;
 var current_move = move;
 while(true){
-var map__5876 = connect_four.core.play(current_state,current_move);
-var map__5876__$1 = ((cljs.core.seq_QMARK_(map__5876))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__5876):map__5876);
-var next_state = map__5876__$1;
-var boards = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__5876__$1,cljs.core.constant$keyword$_COLON_boards);
-var winner = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__5876__$1,cljs.core.constant$keyword$_COLON_winner);
-var game_board = (function (){var G__5877 = (0);
-return (boards.cljs$core$IFn$_invoke$arity$1 ? boards.cljs$core$IFn$_invoke$arity$1(G__5877) : boards.call(null,G__5877));
-})();
+var map__5874 = connect_four.core.play(current_state,current_move);
+var map__5874__$1 = ((cljs.core.seq_QMARK_(map__5874))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__5874):map__5874);
+var next_state = map__5874__$1;
+var boards = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__5874__$1,cljs.core.constant$keyword$_COLON_boards);
+var winner = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__5874__$1,cljs.core.constant$keyword$_COLON_winner);
+var game_board = cljs.core.constant$keyword$_COLON_game_board.cljs$core$IFn$_invoke$arity$1(boards);
 if(cljs.core.some_QMARK_(winner)){
 return winner;
 } else {
 if(cljs.core.truth_(connect_four.core.full_QMARK_(cljs.core.constant$keyword$_COLON_bits.cljs$core$IFn$_invoke$arity$1(game_board)))){
 return false;
 } else {
-var G__5878 = next_state;
-var G__5879 = connect_four.core.random_move(game_board);
-current_state = G__5878;
-current_move = G__5879;
+var G__5875 = next_state;
+var G__5876 = connect_four.core.random_move(game_board);
+current_state = G__5875;
+current_move = G__5876;
 continue;
 
 }
@@ -429,16 +450,13 @@ while(true){
 if((num_iters === (0))){
 return results;
 } else {
-var map__5883 = results;
-var map__5883__$1 = ((cljs.core.seq_QMARK_(map__5883))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__5883):map__5883);
-var total = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__5883__$1,cljs.core.constant$keyword$_COLON_total);
-var map__5884 = game_state;
-var map__5884__$1 = ((cljs.core.seq_QMARK_(map__5884))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__5884):map__5884);
-var player = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__5884__$1,cljs.core.constant$keyword$_COLON_player);
-var boards = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__5884__$1,cljs.core.constant$keyword$_COLON_boards);
-var next_move = connect_four.core.random_move((function (){var G__5885 = (0);
-return (boards.cljs$core$IFn$_invoke$arity$1 ? boards.cljs$core$IFn$_invoke$arity$1(G__5885) : boards.call(null,G__5885));
-})());
+var map__5879 = results;
+var map__5879__$1 = ((cljs.core.seq_QMARK_(map__5879))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__5879):map__5879);
+var total = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__5879__$1,cljs.core.constant$keyword$_COLON_total);
+var map__5880 = game_state;
+var map__5880__$1 = ((cljs.core.seq_QMARK_(map__5880))?cljs.core.apply.cljs$core$IFn$_invoke$arity$2(cljs.core.hash_map,map__5880):map__5880);
+var boards = cljs.core.get.cljs$core$IFn$_invoke$arity$2(map__5880__$1,cljs.core.constant$keyword$_COLON_boards);
+var next_move = connect_four.core.random_move(cljs.core.constant$keyword$_COLON_game_board.cljs$core$IFn$_invoke$arity$1(boards));
 var winner = (function (){var or__4076__auto__ = connect_four.core.simulate(game_state,next_move);
 if(cljs.core.truth_(or__4076__auto__)){
 return or__4076__auto__;
@@ -453,44 +471,44 @@ return or__4076__auto__;
 return (0);
 }
 })();
-var G__5886 = cljs.core.assoc_in(cljs.core.assoc.cljs$core$IFn$_invoke$arity$3(results,cljs.core.constant$keyword$_COLON_total,(total + (1))),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [next_move,winner], null),(wins + (1)));
-var G__5887 = (num_iters - (1));
-results = G__5886;
-num_iters = G__5887;
+var G__5881 = cljs.core.assoc_in(cljs.core.assoc.cljs$core$IFn$_invoke$arity$3(results,cljs.core.constant$keyword$_COLON_total,(total + (1))),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [next_move,winner], null),(wins + (1)));
+var G__5882 = (num_iters - (1));
+results = G__5881;
+num_iters = G__5882;
 continue;
 }
 break;
 }
 });
-connect_four.core.find_best_move = (function connect_four$core$find_best_move(game_state){
-var columns = cljs.core.range.cljs$core$IFn$_invoke$arity$1(cljs.core.constant$keyword$_COLON_columns.cljs$core$IFn$_invoke$arity$1(cljs.core.constant$keyword$_COLON_boards.cljs$core$IFn$_invoke$arity$1(game_state).call(null,(0))));
+connect_four.core.find_best_move = (function connect_four$core$find_best_move(game_state,player){
+var columns = cljs.core.range.cljs$core$IFn$_invoke$arity$1(cljs.core.get_in.cljs$core$IFn$_invoke$arity$2(game_state,new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.constant$keyword$_COLON_boards,cljs.core.constant$keyword$_COLON_game_board,cljs.core.constant$keyword$_COLON_columns], null)));
 var results = connect_four.core.collect_statistics(game_state);
-var win_percentages = cljs.core.into.cljs$core$IFn$_invoke$arity$2(cljs.core.PersistentArrayMap.EMPTY,(function (){var iter__4832__auto__ = ((function (columns,results){
-return (function connect_four$core$find_best_move_$_iter__5898(s__5899){
+var win_percentages = (function (){var iter__4832__auto__ = ((function (columns,results){
+return (function connect_four$core$find_best_move_$_iter__5894(s__5895){
 return (new cljs.core.LazySeq(null,((function (columns,results){
 return (function (){
-var s__5899__$1 = s__5899;
+var s__5895__$1 = s__5895;
 while(true){
-var temp__4126__auto__ = cljs.core.seq(s__5899__$1);
+var temp__4126__auto__ = cljs.core.seq(s__5895__$1);
 if(temp__4126__auto__){
-var s__5899__$2 = temp__4126__auto__;
-if(cljs.core.chunked_seq_QMARK_(s__5899__$2)){
-var c__4830__auto__ = cljs.core.chunk_first(s__5899__$2);
+var s__5895__$2 = temp__4126__auto__;
+if(cljs.core.chunked_seq_QMARK_(s__5895__$2)){
+var c__4830__auto__ = cljs.core.chunk_first(s__5895__$2);
 var size__4831__auto__ = cljs.core.count(c__4830__auto__);
-var b__5901 = cljs.core.chunk_buffer(size__4831__auto__);
-if((function (){var i__5900 = (0);
+var b__5897 = cljs.core.chunk_buffer(size__4831__auto__);
+if((function (){var i__5896 = (0);
 while(true){
-if((i__5900 < size__4831__auto__)){
-var x = cljs.core._nth.cljs$core$IFn$_invoke$arity$2(c__4830__auto__,i__5900);
-cljs.core.chunk_append(b__5901,(cljs.core.truth_((function (){var G__5906 = x;
-return (results.cljs$core$IFn$_invoke$arity$1 ? results.cljs$core$IFn$_invoke$arity$1(G__5906) : results.call(null,G__5906));
-})())?(function (){var wins = cljs.core.get_in.cljs$core$IFn$_invoke$arity$2(results,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [x,(2)], null));
-var losses = cljs.core.get_in.cljs$core$IFn$_invoke$arity$2(results,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [x,(1)], null));
-return new cljs.core.PersistentArrayMap.fromArray([x,(wins / (wins + losses))], true, false);
-})():new cljs.core.PersistentArrayMap.fromArray([x,(0)], true, false)));
+if((i__5896 < size__4831__auto__)){
+var x = cljs.core._nth.cljs$core$IFn$_invoke$arity$2(c__4830__auto__,i__5896);
+cljs.core.chunk_append(b__5897,(cljs.core.truth_((function (){var G__5902 = x;
+return (results.cljs$core$IFn$_invoke$arity$1 ? results.cljs$core$IFn$_invoke$arity$1(G__5902) : results.call(null,G__5902));
+})())?(function (){var wins = cljs.core.get_in.cljs$core$IFn$_invoke$arity$2(results,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [x,player], null));
+var losses = cljs.core.get_in.cljs$core$IFn$_invoke$arity$2(results,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [x,connect_four.core.opposite_player(player)], null));
+return new cljs.core.PersistentArrayMap(null, 2, [cljs.core.constant$keyword$_COLON_column,x,cljs.core.constant$keyword$_COLON_percentage,(wins / (wins + losses))], null);
+})():new cljs.core.PersistentArrayMap(null, 2, [cljs.core.constant$keyword$_COLON_column,x,cljs.core.constant$keyword$_COLON_percentage,(0)], null)));
 
-var G__5908 = (i__5900 + (1));
-i__5900 = G__5908;
+var G__5904 = (i__5896 + (1));
+i__5896 = G__5904;
 continue;
 } else {
 return true;
@@ -498,18 +516,18 @@ return true;
 break;
 }
 })()){
-return cljs.core.chunk_cons(cljs.core.chunk(b__5901),connect_four$core$find_best_move_$_iter__5898(cljs.core.chunk_rest(s__5899__$2)));
+return cljs.core.chunk_cons(cljs.core.chunk(b__5897),connect_four$core$find_best_move_$_iter__5894(cljs.core.chunk_rest(s__5895__$2)));
 } else {
-return cljs.core.chunk_cons(cljs.core.chunk(b__5901),null);
+return cljs.core.chunk_cons(cljs.core.chunk(b__5897),null);
 }
 } else {
-var x = cljs.core.first(s__5899__$2);
-return cljs.core.cons((cljs.core.truth_((function (){var G__5907 = x;
-return (results.cljs$core$IFn$_invoke$arity$1 ? results.cljs$core$IFn$_invoke$arity$1(G__5907) : results.call(null,G__5907));
-})())?(function (){var wins = cljs.core.get_in.cljs$core$IFn$_invoke$arity$2(results,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [x,(2)], null));
-var losses = cljs.core.get_in.cljs$core$IFn$_invoke$arity$2(results,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [x,(1)], null));
-return new cljs.core.PersistentArrayMap.fromArray([x,(wins / (wins + losses))], true, false);
-})():new cljs.core.PersistentArrayMap.fromArray([x,(0)], true, false)),connect_four$core$find_best_move_$_iter__5898(cljs.core.rest(s__5899__$2)));
+var x = cljs.core.first(s__5895__$2);
+return cljs.core.cons((cljs.core.truth_((function (){var G__5903 = x;
+return (results.cljs$core$IFn$_invoke$arity$1 ? results.cljs$core$IFn$_invoke$arity$1(G__5903) : results.call(null,G__5903));
+})())?(function (){var wins = cljs.core.get_in.cljs$core$IFn$_invoke$arity$2(results,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [x,player], null));
+var losses = cljs.core.get_in.cljs$core$IFn$_invoke$arity$2(results,new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [x,connect_four.core.opposite_player(player)], null));
+return new cljs.core.PersistentArrayMap(null, 2, [cljs.core.constant$keyword$_COLON_column,x,cljs.core.constant$keyword$_COLON_percentage,(wins / (wins + losses))], null);
+})():new cljs.core.PersistentArrayMap(null, 2, [cljs.core.constant$keyword$_COLON_column,x,cljs.core.constant$keyword$_COLON_percentage,(0)], null)),connect_four$core$find_best_move_$_iter__5894(cljs.core.rest(s__5895__$2)));
 }
 } else {
 return null;
@@ -521,6 +539,10 @@ break;
 });})(columns,results))
 ;
 return iter__4832__auto__(columns);
-})());
-return cljs.core.apply.cljs$core$IFn$_invoke$arity$3(cljs.core.max_key,cljs.core.val,win_percentages);
+})();
+return cljs.core.apply.cljs$core$IFn$_invoke$arity$3(cljs.core.max_key,((function (columns,results,win_percentages){
+return (function (p1__5883_SHARP_){
+return cljs.core.constant$keyword$_COLON_percentage.cljs$core$IFn$_invoke$arity$1(p1__5883_SHARP_);
+});})(columns,results,win_percentages))
+,win_percentages);
 });
