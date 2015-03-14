@@ -5,9 +5,7 @@
             [cljs.core.async :refer [put! take! <! chan]])
   (:import [goog.math Long]))
 
-(def state (atom {:boards (cf/new-boards)
-                  :player 1
-                  :winner nil}))
+(def state (atom (cf/new-state)))
 
 (def ai-chan (chan))
 
