@@ -10,7 +10,9 @@
 
 (def ai-chan (chan))
 
-(def pieces {:empty "_" :red "RED" :black "BLACK"})
+(def pieces {:empty [:span {:style {:color "black"}} "_"]
+             :red [:span {:style {:color "red"}} "RED"]
+             :black [:span {:style {:color "black"}} "BLACK"]})
 
 (defn drop-piece [column]
   (swap! state cf/play column))
@@ -33,12 +35,12 @@
                            (drop-piece (:column best-move))
                            (.log js/console "Win Percentage: " (:percentage best-move))))))
 
-(defn cell [text column]
+(defn cell [piece column]
   [:td {:style {:border "1px solid black"
                 :width "60px"
                 :height "60px"}
         :on-click #(player-click column)}
-   [:p text]])
+   piece])
 
 (defn winner-display []
   (let [winner (:winner @state)]
