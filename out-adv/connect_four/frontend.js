@@ -8,7 +8,7 @@ goog.require('connect_four.core');
 goog.require('reagent.core');
 connect_four.frontend.state = reagent.core.atom.cljs$core$IFn$_invoke$arity$1(connect_four.core.new_state.cljs$core$IFn$_invoke$arity$0());
 connect_four.frontend.ai_chan = cljs.core.async.chan.cljs$core$IFn$_invoke$arity$0();
-connect_four.frontend.pieces = new cljs.core.PersistentArrayMap(null, 3, [cljs.core.constant$keyword$_COLON_empty,"_",cljs.core.constant$keyword$_COLON_red,"RED",cljs.core.constant$keyword$_COLON_black,"BLACK"], null);
+connect_four.frontend.pieces = new cljs.core.PersistentArrayMap(null, 3, [cljs.core.constant$keyword$_COLON_empty,new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.constant$keyword$_COLON_span,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.constant$keyword$_COLON_style,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.constant$keyword$_COLON_color,"black"], null)], null),"_"], null),cljs.core.constant$keyword$_COLON_red,new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.constant$keyword$_COLON_span,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.constant$keyword$_COLON_style,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.constant$keyword$_COLON_color,"red"], null)], null),"RED"], null),cljs.core.constant$keyword$_COLON_black,new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.constant$keyword$_COLON_span,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.constant$keyword$_COLON_style,new cljs.core.PersistentArrayMap(null, 1, [cljs.core.constant$keyword$_COLON_color,"black"], null)], null),"BLACK"], null)], null);
 connect_four.frontend.drop_piece = (function connect_four$frontend$drop_piece(column){
 return cljs.core.swap_BANG_.cljs$core$IFn$_invoke$arity$3(connect_four.frontend.state,connect_four.core.play,column);
 });
@@ -242,10 +242,10 @@ return cljs.core.async.impl.ioc_helpers.run_state_machine_wrapped(state__7701__a
 });})(c__7699__auto___10785))
 );
 
-connect_four.frontend.cell = (function connect_four$frontend$cell(text,column){
+connect_four.frontend.cell = (function connect_four$frontend$cell(piece,column){
 return new cljs.core.PersistentVector(null, 3, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.constant$keyword$_COLON_td,new cljs.core.PersistentArrayMap(null, 2, [cljs.core.constant$keyword$_COLON_style,new cljs.core.PersistentArrayMap(null, 3, [cljs.core.constant$keyword$_COLON_border,"1px solid black",cljs.core.constant$keyword$_COLON_width,"60px",cljs.core.constant$keyword$_COLON_height,"60px"], null),cljs.core.constant$keyword$_COLON_on_click,(function (){
 return connect_four.frontend.player_click(column);
-})], null),new cljs.core.PersistentVector(null, 2, 5, cljs.core.PersistentVector.EMPTY_NODE, [cljs.core.constant$keyword$_COLON_p,text], null)], null);
+})], null),piece], null);
 });
 connect_four.frontend.winner_display = (function connect_four$frontend$winner_display(){
 var winner = cljs.core.constant$keyword$_COLON_winner.cljs$core$IFn$_invoke$arity$1((function (){var G__10798 = connect_four.frontend.state;
