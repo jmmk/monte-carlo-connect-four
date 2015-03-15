@@ -6,7 +6,7 @@
             [clojure.string :as string])
   (:import [goog.math Long]))
 
-(def state (atom (cf/new-state)))
+(def game-state (atom (cf/new-state)))
 
 (def ai-chan (chan))
 
@@ -15,23 +15,23 @@
              :black [:span {:style {:color "black"}} "BLACK"]})
 
 (defn drop-piece [column]
-  (swap! state cf/play column))
+  (swap! game-state cf/play column))
 
 (defn player-click [column]
-  (let [{:keys [player boards]} @state]
+  (let [{:keys [player boards]} @game-state]
     (when (and (= player :red)
-               (nil? (:winner @state))
+               (nil? (:winner @game-state))
                (cf/is-valid? (:game-board boards) column))
       (drop-piece column))))
 
-(add-watch state :ai
+(add-watch game-state :ai
   (fn [key atom old-state new-state]
     (when (= (:player new-state) :black)
       (put! ai-chan "run"))))
 
 (go (while true (when (and (= "run" (<! ai-chan))
-                           (nil? (:winner @state)))
-                         (let [best-move (cf/find-best-move @state :black)]
+                           (nil? (:winner @game-state)))
+                         (let [best-move (cf/find-best-move @game-state :black)]
                            (drop-piece (:column best-move))
                            (.log js/console "Win Percentage: " (:percentage best-move))))))
 
@@ -43,23 +43,29 @@
    piece])
 
 (defn winner-display []
-  (let [winner (:winner @state)]
+  (let [winner (:winner @game-state)]
     [:div {:style {:height "32px"}}
      [:h1
       (when (some? winner)
         (str (string/capitalize (name winner)) " wins!"))]]))
 
 (defn game-board []
-  (let [{:keys [boards winner]} @state
+  (let [{:keys [boards winner]} @game-state
         {:keys [rows columns state]} (:game-board boards)]
-    [:div
+    [:div {:style {:width "500px"
+                   :text-align "center"}}
      [winner-display]
-     [:table {:style {:border-collapse "collapse"}}
+     [:table {:style {:margin "auto"
+                      :border-collapse "collapse"}}
       (doall (for [row (range (dec rows) -1 -1)]
                [:tr {:key row}
                 (doall (for [column (range columns)]
                          ^{:key (str column row)}
-                         [cell (pieces (get (state column) row :empty)) column]))]))]]))
+                         [cell (pieces (get (state column) row :empty)) column]))]))]
+     [:button {:on-click #(reset! game-state (cf/new-state))
+               :style {:margin-top "20px"
+                       :font-size "20px"}}
+      "New Game!"]]))
 
 (reagent/render-component [game-board]
                           (.-body js/document))
