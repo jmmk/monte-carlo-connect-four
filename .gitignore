@@ -9,3 +9,5 @@ out-adv
 .lein-repl-history
 .lein-plugins/
 .nrepl-port
+.repl*
+.lein-failures
