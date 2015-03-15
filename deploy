@@ -24,7 +24,7 @@ main() {
   $GIT checkout -q gh-pages
 
   log "Copy compiled javascript"
-  cp -r out-adv "${TMP_DIR}"
+  cp out-adv/connect_four.min.js "${TMP_DIR}"
 
   log "Commit: ${COMMIT_MSG}"
   $GIT add -A
