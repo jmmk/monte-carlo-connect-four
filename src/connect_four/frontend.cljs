@@ -14,6 +14,11 @@
              :red [:span {:style {:color "red"}} "RED"]
              :black [:span {:style {:color "black"}} "BLACK"]})
 
+(def difficulties {:easy 100
+                   :intermediate 1000
+                   :hard 5000
+                   :expert 10000})
+
 (defn drop-piece [column]
   (swap! game-state cf/play column))
 
@@ -29,11 +34,12 @@
     (when (= (:player new-state) :black)
       (put! ai-chan "run"))))
 
-(go (while true (when (and (= "run" (<! ai-chan))
-                           (nil? (:winner @game-state)))
-                         (let [best-move (cf/find-best-move @game-state :black)]
-                           (drop-piece (:column best-move))
-                           (.log js/console "Win Percentage: " (:percentage best-move))))))
+(let [{:keys [winner difficulty]} @game-state]
+  (go (while true (when (and (= "run" (<! ai-chan))
+                             (nil? winner))
+                    (let [best-move (cf/find-best-move @game-state :black (difficulty difficulties))]
+                      (drop-piece (:column best-move))
+                      (.log js/console "Win Percentage: " (:percentage best-move)))))))
 
 (defn cell [piece column]
   [:td {:style {:border "1px solid black"

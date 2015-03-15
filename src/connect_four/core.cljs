@@ -39,7 +39,8 @@
   ([player]
    {:boards (new-boards)
     :player player
-    :winner nil}))
+    :winner nil
+    :difficulty :expert}))
 
 (defn opposite-player [player]
   (if (= player :red)
@@ -125,9 +126,9 @@
             (full? (:bits game-board)) false
             :else (recur next-state (random-move game-board))))))
 
-(defn collect-statistics [game-state]
+(defn collect-statistics [game-state simulations]
   (loop [results {:total 0}
-         num-iters 5000]
+         num-iters simulations]
     (if (zero? num-iters)
       results
       (let [{:keys [total]} results
@@ -139,9 +140,9 @@
                    (assoc :total (inc total))
                    (assoc-in [next-move winner] (inc wins))) (dec num-iters))))))
 
-(defn find-best-move [game-state player]
+(defn find-best-move [game-state player simulations]
   (let [columns (range (get-in game-state [:boards :game-board :columns]))
-        results (collect-statistics game-state)
+        results (collect-statistics game-state simulations)
         win-percentages (for [x columns]
                           (if (results x)
                             (let [wins (get-in results [x player])
