@@ -39,8 +39,7 @@
   ([player]
    {:boards (new-boards)
     :player player
-    :winner nil
-    :difficulty :expert}))
+    :winner nil}))
 
 (defn opposite-player [player]
   (if (= player :red)

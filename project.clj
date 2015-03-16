@@ -4,6 +4,7 @@
 
   :dependencies [[org.clojure/clojure "1.6.0"]
                  [reagent "0.5.0"]
+                 [reagent-forms "0.4.5"]
                  [org.clojure/core.async "0.1.346.0-17112a-alpha"]
                  [org.clojure/clojurescript "0.0-3058"]]
 
