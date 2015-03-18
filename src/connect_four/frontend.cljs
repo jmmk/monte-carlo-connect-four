@@ -13,7 +13,7 @@
 
 (def config (atom {:difficulty :hard}))
 
-(def ai-chan (chan))
+(def ai-chan (chan 1))
 
 (def pieces {:empty [:span {:style {:color "black"}} "_"]
              :red [:span {:style {:color "red"}} "RED"]
