@@ -8,5 +8,9 @@ out-adv
 .lein-deps-sum
 .lein-repl-history
 .lein-plugins/
+.lein-env
 .nrepl-port
 .repl*
+figwheel_server.log
+resources/public/js/app.js
+resources/public/js/out
