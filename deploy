@@ -15,7 +15,7 @@ main() {
   lein clean
 
   log "Compile to Javascript"
-  lein cljsbuild once release &> /dev/null
+  lein with-profile uberjar cljsbuild once &> /dev/null
 
   log "Clone ${REPO}"
   git clone -q "${REPO}" "${TMP_DIR}"
@@ -24,7 +24,7 @@ main() {
   $GIT checkout -q gh-pages
 
   log "Copy compiled javascript"
-  cp out-adv/connect_four.min.js "${TMP_DIR}"
+  cp resources/public/js/app.js "${TMP_DIR}/connect_four.min.js"
 
   log "Commit: ${COMMIT_MSG}"
   $GIT add -A

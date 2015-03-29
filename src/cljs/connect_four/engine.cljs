@@ -1,4 +1,4 @@
-(ns connect-four.core
+(ns connect-four.engine
   (:require [clojure.browser.repl :as repl])
   (:import [goog.math Long]))
 
