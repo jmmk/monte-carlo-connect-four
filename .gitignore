@@ -9,6 +9,7 @@ out-adv
 .lein-repl-history
 .lein-plugins/
 .lein-env
+.lein-failures
 .nrepl-port
 .repl*
 figwheel_server.log
