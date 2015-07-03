@@ -1,16 +1,14 @@
 (ns connect-four.core
   (:require [reagent.core :as reagent]
+            [re-frame.core :as rf]
+            [goog.dom :as dom]
             [connect-four.views]
             [connect-four.subs]
-            [connect-four.handlers]
-            [re-frame.core :refer [dispatch-sync]]))
-
-;; -- Routing -----------------------------------------------------------------
+            [connect-four.handlers]))
 
 (defn mount-root []
-  (reagent/render [connect-four.views/connect-four-app] (.getElementById js/document "app")))
+  (reagent/render [connect-four.views/connect-four-app] (dom/getElement "app")))
 
-;; -- Initialize app ----------------------------------------------------------
-(defn init! []
-  (dispatch-sync [:new-game])
+(defn init []
+  (rf/dispatch-sync [:new-game])
   (mount-root))

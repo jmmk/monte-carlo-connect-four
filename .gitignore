@@ -2,8 +2,7 @@ pom.xml
 *jar
 /lib/
 /classes/
-/out/
-out-adv
+/assets/js/
 /target/
 .lein-deps-sum
 .lein-repl-history
@@ -13,5 +12,3 @@ out-adv
 .nrepl-port
 .repl*
 figwheel_server.log
-resources/public/js/app.js
-resources/public/js/out
