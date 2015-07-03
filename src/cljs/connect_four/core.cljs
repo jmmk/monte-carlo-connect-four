@@ -9,6 +9,6 @@
 (defn mount-root []
   (reagent/render [connect-four.views/connect-four-app] (dom/getElement "app")))
 
-(defn init []
+(defn ^:export init []
   (rf/dispatch-sync [:new-game])
   (mount-root))
