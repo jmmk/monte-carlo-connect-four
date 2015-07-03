@@ -4,6 +4,8 @@ pom.xml
 /classes/
 /out/
 out-adv
+/assets/js/out/
+/assets/js/out-adv/
 /target/
 .lein-deps-sum
 .lein-repl-history
