@@ -1,7 +1,7 @@
 (ns connect-four.handlers
-  (:require [connect-four.state :refer [default-value valid-schema?]]
+  (:require [connect-four.state :as db]
             [connect-four.engine :as cf]
-            [re-frame.core :refer [dispatch register-handler debug after path trim-v]]))
+            [re-frame.core :as rf ]))
 
 (enable-console-print!)
 
@@ -10,23 +10,15 @@
                    :hard 5000
                    :expert 10000})
 
-
-;; -- Middleware --------------------------------------------------------------
 (def standard-middlewares
-  [trim-v
-   (when goog.DEBUG [debug (after valid-schema?)])])
+  [rf/trim-v])
 
-;; -- Helpers -----------------------------------------------------------------
-
-
-;; -- Handlers ----------------------------------------------------------------
-
-(register-handler
+(rf/register-handler
   :new-game
   (fn  [db _]
-    (default-value (get-in db [:config :difficulty]))))
+    (db/default-value (get-in db [:config :difficulty]))))
 
-(register-handler
+(rf/register-handler
   :player-click
   [standard-middlewares]
   (fn [db [column]]
@@ -34,19 +26,18 @@
       (if (and (= player :red)
                (nil? winner)
                (cf/is-valid? (:game-board boards) column))
-        (do (dispatch [:ai])
+        (do (rf/dispatch [:ai])
             (cf/play db column))
         db))))
 
-(register-handler
+(rf/register-handler
   :change-difficulty
   [standard-middlewares]
   (fn [db [difficulty]]
     (assoc-in db [:config :difficulty] difficulty)))
 
-(register-handler
+(rf/register-handler
   :ai
-  [standard-middlewares]
   (fn [db _]
     (if (nil? (:winner db))
       (let [difficulty ((get-in db [:config :difficulty]) difficulties)
@@ -54,4 +45,3 @@
         (println "Win Percentage: " (:percentage best-move))
         (cf/play db (:column best-move)))
     db)))
-
