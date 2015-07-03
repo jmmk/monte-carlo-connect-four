@@ -3,7 +3,7 @@ set -eo pipefail
 
 readonly TMP_DIR=$(mktemp -d /tmp/monte-carlo-connect-four.XXXXXX)
 readonly REPO=git@github.com:jmmk/monte-carlo-connect-four.git
-readonly GIT="git -C ${TMP_DIR}"
+readonly GIT="git -C $TMP_DIR"
 readonly COMMIT_MSG="Update to latest build"
 
 log() {
@@ -15,26 +15,32 @@ main() {
   lein clean
 
   log "Compile to Javascript"
-  lein with-profile uberjar cljsbuild once &> /dev/null
+  lein cljsbuild once production
 
-  log "Clone ${REPO}"
-  git clone -q "${REPO}" "${TMP_DIR}"
+  log "Clone $REPO"
+  git clone -q "$REPO" "$TMP_DIR"
 
   log "Checkout gh-pages"
   $GIT checkout -q gh-pages
 
-  log "Copy compiled javascript"
-  cp resources/public/js/app.js "${TMP_DIR}/connect_four.min.js"
+  log "Remove old assets"
+  rm -r "$TMP_DIR/assets"
 
-  log "Commit: ${COMMIT_MSG}"
+  log "Copy new assets"
+  cp -r assets "$TMP_DIR"
+
+  log "Copy index.html"
+  cp index.html "$TMP_DIR"
+
+  log "Commit: $COMMIT_MSG"
   $GIT add -A
-  $GIT commit -q -m "${COMMIT_MSG}"
+  $GIT commit -q -m "$COMMIT_MSG"
 
   log "Push gh-pages"
   $GIT push -q origin gh-pages
 
   log "Remove temp directory"
-  rm -rf "${TMP_DIR}"
+  rm -rf "$TMP_DIR"
 }
 
-main "${@}"
+main "$@"
