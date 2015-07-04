@@ -1,4 +1,4 @@
-(ns connect-four.handlers
+(ns connect-four.ui.handlers
   (:require [connect-four.state :as db]
             [connect-four.engine :as cf]
             [re-frame.core :as rf ]))

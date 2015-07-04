@@ -1,4 +1,4 @@
-(ns connect-four.subs
+(ns connect-four.ui.subs
   (:require-macros [reagent.ratom :refer [reaction]])
   (:require [re-frame.core :as rf]))
 

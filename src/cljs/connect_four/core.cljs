@@ -2,12 +2,12 @@
   (:require [reagent.core :as reagent]
             [re-frame.core :as rf]
             [goog.dom :as dom]
-            [connect-four.views]
-            [connect-four.subs]
-            [connect-four.handlers]))
+            [connect-four.ui.views]
+            [connect-four.ui.subs]
+            [connect-four.ui.handlers]))
 
 (defn mount-root []
-  (reagent/render [connect-four.views/connect-four-app] (dom/getElement "app")))
+  (reagent/render [connect-four.ui.views/connect-four-app] (dom/getElement "app")))
 
 (defn ^:export init []
   (rf/dispatch-sync [:new-game])

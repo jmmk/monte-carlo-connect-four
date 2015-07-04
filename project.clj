@@ -9,6 +9,7 @@
                  [org.clojure/clojurescript "0.0-3308"]
                  [bidi "1.20.0"]
                  [ring/ring-core "1.3.2"]
+                 [re-com "0.5.4"]
                  [re-frame "0.4.1"]]
 
   :node-dependencies [[source-map-support "0.2.8"]]
